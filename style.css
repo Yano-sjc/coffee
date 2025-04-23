@@ -1,3 +1,7 @@
+.example {
+    text-align: -webkit-match-parent; /* 古いWebKit系対応 */
+    text-align: match-parent;         /* Safari 15.4以降など、標準ブラウザ対応 */
+  }
 
 h1,h3{
     color: rgb(142, 60, 1);
@@ -74,6 +78,9 @@ h1,h3{
   }
   *{box-sizing:border-box;}
   body{
+    /* 互換性を確保 */
+    -webkit-text-size-adjust: 100%; /* 古いSafari向け */
+    text-size-adjust: 100%;         /* 新しいブラウザ向け */
     margin:0;
     /* フォントの変更 */
     font-family: 'Noto Serif JP', serif;
