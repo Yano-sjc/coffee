@@ -6,24 +6,24 @@
     <title>あなたのコーヒー診断</title>
 </head>
 <body>
-    <main class="card"id="top">
+    <main class="card" id="top">
         <h1>あなたのコーヒー診断</h1>
         <form id ="coffeeForm">
             <fieldset>
                 <legend><h3>基本情報</h3></legend>
                 <label for="coffeeName">お名前</label>
-                <label><input type="text" name="name"id ="coffeeName"></label>
+                <label><input type="text" name="name" id ="coffeeName"></label>
             </fieldset>
             <fieldset>
             <legend><h3>好みを教えてください</h3></legend>
                 <label for="coffeeLike">好みの苦さ 50</label>
                 <label><input type="range" name="like" id="coffeeLike"></label>
                 <label><p>飲む時間帯</p></label>
-                <label><input type="radio" name="likeTime" id="coffeeLike">朝</label><br>
-                <label><input type="radio" name="likeTime" id="coffeeLike">午後</label><br>
-                <label><input type="radio" name="likeTime" id="coffeeLike">夜</label><br>
-                <label><input type="checkbox" name="milkYesOrNo" id="coffeeLike">ミルクを入れる</label><br>
-                <button><input type="hidden" id="coffeeLike">診断する</button>
+                <label><input type="radio" name="likeTime" id="coffeeMorning">朝</label><br>
+                <label><input type="radio" name="likeTime" id="coffeeAfternoon">午後</label><br>
+                <label><input type="radio" name="likeTime" id="coffeeNight">夜</label><br>
+                <label><input type="checkbox" name="milkYesOrNo" id="coffeeMilk">ミルクを入れる</label><br>
+                <button><input type="hidden" id="coffeeDiagnosis">診断する</button>
                 
             </fieldset>    
         </form>
