@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>あなたのコーヒー診断</title>
+    <link rel="stylesheet" href="style.css"/>
+    <!-- フォントのURL -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
 </head>
 <body>
     <main class="card" id="top">
@@ -16,18 +19,73 @@
             </fieldset>
             <fieldset>
             <legend><h3>好みを教えてください</h3></legend>
-                <label for="coffeeLike">好みの苦さ 50</label>
-                <label><input type="range" name="like" id="coffeeLike"></label>
+                <label for="coffeeLike">好みの苦さ</label>
+                <span id="value">50</span>
+                <label><input type="range" class="input-range" name="like" id="coffeeLike" max="100" min="0" value="50"></label>
+                
                 <label><p>飲む時間帯</p></label>
-                <label><input type="radio" name="likeTime" id="coffeeMorning">朝</label><br>
-                <label><input type="radio" name="likeTime" id="coffeeAfternoon">午後</label><br>
-                <label><input type="radio" name="likeTime" id="coffeeNight">夜</label><br>
-                <label><input type="checkbox" name="milkYesOrNo" id="coffeeMilk">ミルクを入れる</label><br>
-                <button><input type="hidden" id="coffeeDiagnosis">診断する</button>
+                <div class="radio-group">
+                    <label><input type="radio" name="likeTime" id="coffeeMorning" value="1" required>朝</label>
+                    <label><input type="radio" name="likeTime" id="coffeeAfternoon" value="2">午後</label>
+                    <label><input type="radio" name="likeTime" id="coffeeNight" value="3">夜</label>
+                </div>
+                <label><input type="checkbox" name="milkYesOrNo" id="coffeeMilk" >ミルクを入れる</label><br>
+                <button type="submit" class="coffee-button">診断する</button>
                 
             </fieldset>    
         </form>
-        <output id ="result">オススメが出ます</output>
+        <p>おすすめの一杯</p>
+        <output id ="result"></output>
     </main>
 </body>
 </html>
+<script>
+    const range = document.getElementById('coffeeLike');
+    const value = document.getElementById('value');
+    
+    // スライダーが動くたびに値を更新
+    range.addEventListener('input', () => {
+      value.textContent = range.value;
+    });
+    //診断結果を計算
+    function recommendCoffee(event){
+        event.preventDefault(); // フォーム送信によるリロードを防ぐ
+        const timeInput = document.querySelector('input[name="likeTime"]:checked');
+        const time = timeInput ? parseInt(timeInput.value) : null;
+        const bitterness = parseInt(document.getElementById("coffeeLike").value);
+
+        const milk = document.getElementById('coffeeMilk').checked;
+        let result="";
+        
+        //苦さと飲みたい時間とミルクの有り無しから計算
+        if (time == 1) { // 朝
+        if (bitterness < 30)
+          result = milk ? "ミルク入りライトブレンド（やさしい朝に）" : "ライトロースト（すっきり爽やか）";
+        else if (bitterness < 70)
+          result = milk ? "カフェオレ（バランスとコク）" : "モーニングブレンド（ちょうどいい苦味）";
+        else
+          result = milk ? "ダークカフェオレ（朝の目覚めにガツンと）" : "ダークロースト（苦味で覚醒）";
+
+      } else if (time == 2) { // 午後
+        if (bitterness < 30)
+          result = milk ? "カフェラテ（甘くてほっとする）" : "ライトブレンド（軽やかな一杯）";
+        else if (bitterness < 70)
+          result = milk ? "モカラテ（香り高くまろやか）" : "モカブレンド（豊かな香り）";
+        else
+          result = milk ? "フレンチロースト・ラテ（午後にどっしり）" : "フレンチロースト（深煎り好きに）";
+
+      } else if (time == 3) { // 夜
+        if (bitterness < 50)
+          result = milk ? "ディカフェ・ラテ（眠りを妨げない優しい味）" : "ディカフェ（カフェインレス）";
+        else
+          result = milk ? "ディカフェ・ダークラテ（深い味わいでリラックス）" : "ディカフェ・ダーク（夜の静かな時間に）";
+      }
+     
+      document.getElementById("result").textContent = result;
+      console.log(time);
+      console.log(milk);
+      console.log(result);
+    }
+    
+    document.getElementById("coffeeForm").addEventListener("submit", recommendCoffee);
+</script>
