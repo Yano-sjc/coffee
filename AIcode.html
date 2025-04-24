@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>カウンターアプリ</title>
+  <style>
+    /* ==== 全体のスタイル ==== */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe8d6, #fcd5ce);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      color: #6d4c41;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #fffaf0;
+      border: 1px solid #e0cfc2;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    #counter {
+      font-size: 64px;
+      margin: 20px 0;
+      color: #4e342e;
+    }
+
+    input[type="number"] {
+      font-size: 24px;
+      padding: 5px;
+      width: 100px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #d7ccc8;
+      color: #4e342e;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #a1887f;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>☕ カフェ風カウンター ☕</h1>
+
+  <div class="card">
+    <!-- カウンターの表示 -->
+    <div id="counter">0</div>
+
+    <!-- 数値を直接入力 -->
+    <input type="number" id="inputNumber" placeholder="数値入力" />
+
+    <!-- 操作ボタン -->
+    <div>
+      <button onclick="changeCount(-1)">－1</button>
+      <button onclick="changeCount(1)">＋1</button>
+      <button onclick="resetCount()">リセット</button>
+      <button onclick="setFromInput()">入力値に設定</button>
+      <button onclick="fetchWeatherForcast()">天気予報</button>
+      
+    </div>
+  </div>
+  <div id="weather" style="margin-top: 20px; font-size: 18px; color: #4e342e;"></div>
+  <script>
+    const apiUrl = "https://weather.tsukumijima.net/api/forecast/city/230010"
+    async function fetchWeatherForcast() {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        const forecasts = data.forecasts;
+        const city = data.location.city;
+        let html = `<strong>${city}の天気予報:</strong><br><br>`;
+
+        forecasts.forEach((forecast) => {
+        {
+            // 今日の天気予報データ
+            const date = forecast.dateLabel; // "今日", "明日", "明後日"
+            const weather = forecast.telop;
+            const tempMin = forecast.temperature.min?.celsius ?? "N/A";
+            const tempMax = forecast.temperature.max?.celsius ?? "N/A";
+
+            html += `
+              【${date}】<br>
+              天気：${weather}<br>
+              最低気温：${tempMin}℃<br>
+              最高気温：${tempMax}℃<br><br>`;
+                  // 表示エリアに挿入
+                  document.getElementById("weather").innerHTML = html;
+            }})
+        
+        
+        console.log(data);
+    }
+    
+    // // カウントの状態を保持
+    // let count = 0;
+
+    // // ページ読み込み時にローカルストレージから値を取得
+    // window.onload = () => {
+    //   const saved = localStorage.getItem("counterValue");
+    //   if (saved !== null) {
+    //     count = parseInt(saved);
+    //     updateDisplay();
+    //   }
+    // };
+
+    // // 表示を更新 & ローカルストレージに保存
+    // function updateDisplay() {
+    //   document.getElementById("counter").textContent = count;
+    //   localStorage.setItem("counterValue", count);
+    // }
+
+    // // カウントを増減
+    // function changeCount(amount) {
+    //   count += amount;
+    //   updateDisplay();
+    // }
+
+    // // カウントをリセット
+    // function resetCount() {
+    //   count = 0;
+    //   updateDisplay();
+    // }
+
+    // // 入力された数値でカウントを上書き
+    // function setFromInput() {
+    //   const input = document.getElementById("inputNumber").value;
+    //   const number = parseInt(input);
+    //   if (!isNaN(number)) {
+    //     count = number;
+    //     updateDisplay();
+    //   }
+    // }
+    // function wait(ms){
+    //     //resolveは約束が成功したとき
+    //     //rejectは約束が失敗したとき
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve(`${ms}m秒経過`);
+    //         }, ms);
+    //     })
+    // }
+    // console.log("タイマー開始");
+    // wait(2000).then((message) => {
+    //     console.log(message);
+    //     return wait(1000)
+    // }).then((message) =>{
+    //     console.log(message);
+    // }).catch((error)=>{
+    //     console.log(message);
+    // })
+    // console.log("これはいつ開始される？");
+    // const user ={
+    //     name:'花子',
+    //     age:25,
+    //     hobbise:['読書','料理'],
+    //     address:{
+    //         city:'世田谷',
+    //         zipCode:'155-0033',
+    //     }
+    // };
+    // const jsonString = JSON.stringify(user);
+    // console.log(jsonString);
+    // const parsedJson = JSON.parse(jsonString);
+    // console.log(parsedJson);
+  </script>
+</body>
+</html>
